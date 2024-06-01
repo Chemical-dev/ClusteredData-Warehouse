@@ -1,8 +1,10 @@
 package com.clustereddatawarehouse.dto.request;
 
+import com.clustereddatawarehouse.annotations.PositiveAmount;
+import com.clustereddatawarehouse.annotations.ValidCurrency;
 import com.clustereddatawarehouse.dto.response.ValidationResponse;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -12,30 +14,18 @@ public class AddDealDto {
     private String dealUniqueId;
 
     @NotNull(message = "From Currency ISO Code is required")
+    @ValidCurrency
     private String fromCurrencyIsoCode;
 
     @NotNull(message = "To Currency ISO Code is required")
+    @ValidCurrency
     private String toCurrencyIsoCode;
 
     @NotNull(message = "Deal timestamp is required")
     private LocalDateTime dealTimestamp;
 
     @NotNull(message = "Deal amount is required")
+    @PositiveAmount
     private BigDecimal dealAmount;
-
-    public ValidationResponse isValid() {
-        if (fromCurrencyIsoCode != null && toCurrencyIsoCode != null && dealTimestamp != null && dealAmount != null && dealUniqueId != null) {
-            if (fromCurrencyIsoCode.equals(toCurrencyIsoCode)) {
-                return new ValidationResponse(false, "From and To currencies should not be the same");
-            } else if (fromCurrencyIsoCode.length() != 3 || toCurrencyIsoCode.length() != 3) {
-                return new ValidationResponse(false, "FromCurrency and ToCurrency should be 3 letters length.");
-            } else if (dealAmount.compareTo(BigDecimal.ZERO) <= 0) {
-                return new ValidationResponse(false, "Deal amount should be a positive value.");
-            }
-        } else {
-            return new ValidationResponse(false, "All required fields must be provided.");
-        }
-        return new ValidationResponse(true, "Valid");
-    }
 
 }

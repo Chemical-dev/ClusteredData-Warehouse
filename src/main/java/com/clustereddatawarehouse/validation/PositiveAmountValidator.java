@@ -1,17 +1,12 @@
 package com.clustereddatawarehouse.validation;
 
 import com.clustereddatawarehouse.annotations.PositiveAmount;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.math.BigDecimal;
 
 public class PositiveAmountValidator implements ConstraintValidator<PositiveAmount, BigDecimal> {
-
-    @Override
-    public void initialize(PositiveAmount constraintAnnotation) {
-        // Any initialization logic goes here
-    }
 
     @Override
     public boolean isValid(BigDecimal dealAmount, ConstraintValidatorContext context) {
@@ -19,7 +14,7 @@ public class PositiveAmountValidator implements ConstraintValidator<PositiveAmou
         if (dealAmount == null) {
             return true;
         }
-        System.out.println("i am here");
+        System.out.println("dealAmount: " + dealAmount);
         return dealAmount.compareTo(BigDecimal.ZERO) > 0;
     }
 }

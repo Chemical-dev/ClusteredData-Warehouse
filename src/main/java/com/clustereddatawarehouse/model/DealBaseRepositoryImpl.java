@@ -11,12 +11,13 @@ import java.io.Serializable;
 
 public class DealBaseRepositoryImpl<T extends BaseDeal, U extends Serializable> extends SimpleJpaRepository<T, U> implements BaseRepository<T, U> {
     private static final String THE_ENTITY_MUST_NOT_BE_NULL = "The entity must not be null!";
-    private final javax.persistence.EntityManager entityManager;
+    private final  EntityManager entityManager;
 
-    public DealBaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager, javax.persistence.EntityManager entityManager1) {
+    public DealBaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager, EntityManager entityManager1) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager1;
     }
+
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
