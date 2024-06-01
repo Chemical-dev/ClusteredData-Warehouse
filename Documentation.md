@@ -7,7 +7,7 @@ This application is designed to accept, validate, and store deal details. The ap
 To run this application, ensure you have the following installed on your system:
 
 - **Docker:** Docker is required to run the MySQL database in a container.
-- **Java 17:** The application is built using Java 11, so you need to have it installed.
+- **Java 17:** The application is built using Java 17, so you need to have it installed.
 - **Maven:** Maven is used for building the application and managing dependencies.
 
 ## Running the Application
@@ -20,7 +20,7 @@ First, you need to start the MySQL database. This can be done easily using Docke
 
 1. Ensure Docker is running on your system.
 2. Navigate to the root directory of the project where the `docker-compose.yml` file is located.
-3. Run the following command to start the PostgreSQL database in detached mode (in the background):
+3. Run the following command to start the MYSQL database in detached mode (in the background):
 
    ```sh
    docker-compose up -d

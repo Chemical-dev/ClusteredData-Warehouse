@@ -2,7 +2,6 @@ package com.clustereddatawarehouse.dto.request;
 
 import com.clustereddatawarehouse.annotations.PositiveAmount;
 import com.clustereddatawarehouse.annotations.ValidCurrency;
-import com.clustereddatawarehouse.dto.response.ValidationResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.math.BigDecimal;

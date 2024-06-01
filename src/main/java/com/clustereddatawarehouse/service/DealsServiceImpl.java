@@ -3,9 +3,9 @@ package com.clustereddatawarehouse.service;
 import com.clustereddatawarehouse.dto.request.AddDealDto;
 import com.clustereddatawarehouse.dto.response.AppResponse;
 import com.clustereddatawarehouse.dto.response.ErrorResponse;
-import com.clustereddatawarehouse.dto.response.ValidationResponse;
 import com.clustereddatawarehouse.model.Deal;
-import com.clustereddatawarehouse.model.DealsRepository;
+import com.clustereddatawarehouse.repository.DealsRepository;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class DealsServiceImpl implements DealService{
     private final DealsRepository dealsRepository;
 
     @Override
-    public ResponseEntity<?> addDeal(AddDealDto dto) {
+    public ResponseEntity<?> addDeal(@Valid() AddDealDto dto) {
         try {
             Boolean dealExists = dealsRepository.existsByDealUniqueIdOrDealAmountOrFromCurrencyIsoCodeOrToCurrencyIsoCode(dto.getDealUniqueId(), dto.getDealAmount(), dto.getFromCurrencyIsoCode(), dto.getToCurrencyIsoCode());
             if (dealExists) {

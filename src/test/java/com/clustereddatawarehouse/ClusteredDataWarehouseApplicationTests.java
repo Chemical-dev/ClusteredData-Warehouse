@@ -2,11 +2,9 @@ package com.clustereddatawarehouse;
 
 import com.clustereddatawarehouse.dto.request.AddDealDto;
 import com.clustereddatawarehouse.dto.response.ErrorResponse;
-import com.clustereddatawarehouse.model.DealsRepository;
+import com.clustereddatawarehouse.repository.DealsRepository;
 import com.clustereddatawarehouse.service.DealService;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

@@ -1,5 +1,6 @@
-package com.clustereddatawarehouse.model;
+package com.clustereddatawarehouse.repository;
 
+import com.clustereddatawarehouse.model.Deal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
