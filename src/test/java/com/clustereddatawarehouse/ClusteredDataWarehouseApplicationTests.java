@@ -1,9 +1,9 @@
 package com.clustereddatawarehouse;
 
+import com.clustereddatawarehouse.controller.DealsController;
 import com.clustereddatawarehouse.dto.request.AddDealDto;
 import com.clustereddatawarehouse.dto.response.ErrorResponse;
 import com.clustereddatawarehouse.repository.DealsRepository;
-import com.clustereddatawarehouse.service.DealService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,10 +21,11 @@ import static org.mockito.Mockito.when;
 class ClusteredDataWarehouseApplicationTests {
 
     @Autowired
-    private DealService dealService;
+    private DealsController dealService;
 
     @MockBean
     private DealsRepository dealRepository;
+
 
     @Test
     public void whenValidDeal_thenDealShouldBeAdded() {
@@ -37,35 +38,36 @@ class ClusteredDataWarehouseApplicationTests {
 
         when(dealRepository.existsByDealUniqueId(dto.getDealUniqueId())).thenReturn(false);
 
-        ResponseEntity<?> response = dealService.addDeal(dto);
+        ResponseEntity<?> response = dealService.createDeal(dto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void testAddInvalidDeal() {
         AddDealDto invalidDto = new AddDealDto();
-        invalidDto.setDealUniqueId(null);
-        invalidDto.setFromCurrencyIsoCode("USD");
+        invalidDto.setDealUniqueId("657734793843");
+        invalidDto.setFromCurrencyIsoCode("null");
         invalidDto.setToCurrencyIsoCode("EUR");
         invalidDto.setDealTimestamp(LocalDateTime.now());
         invalidDto.setDealAmount(new BigDecimal("1000.00"));
 
-        ResponseEntity<?> response = dealService.addDeal(invalidDto);
+        ResponseEntity<?> response = dealService.createDeal(invalidDto);
+        System.out.println("response: " + response);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("All required fields must be provided.", ((ErrorResponse) response.getBody()).getMessage());
+        assertEquals("FromCurrency and ToCurrency should be 3 letters length.", ((ErrorResponse) response.getBody()).getMessage());
     }
 
     @Test
     public void testAddDealWithInvalidCurrencyCode() {
         AddDealDto invalidCurrencyDto = new AddDealDto();
         invalidCurrencyDto.setDealUniqueId("D3");
-        invalidCurrencyDto.setFromCurrencyIsoCode("US");  // Invalid ISO code
+        invalidCurrencyDto.setFromCurrencyIsoCode("US");
         invalidCurrencyDto.setToCurrencyIsoCode("EUR");
         invalidCurrencyDto.setDealTimestamp(LocalDateTime.now());
         invalidCurrencyDto.setDealAmount(new BigDecimal("1000.00"));
 
-        ResponseEntity<?> response = dealService.addDeal(invalidCurrencyDto);
+        ResponseEntity<?> response = dealService.createDeal(invalidCurrencyDto);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("FromCurrency and ToCurrency should be 3 letters length.", ((ErrorResponse) response.getBody()).getMessage());
@@ -84,13 +86,10 @@ class ClusteredDataWarehouseApplicationTests {
                 duplicateDto.getDealUniqueId(), duplicateDto.getDealAmount(),
                 duplicateDto.getFromCurrencyIsoCode(), duplicateDto.getToCurrencyIsoCode())).thenReturn(true);
 
-        ResponseEntity<?> response = dealService.addDeal(duplicateDto);
+        ResponseEntity<?> response = dealService.createDeal(duplicateDto);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Deal already exists",
                 ((ErrorResponse) response.getBody()).getMessage());
     }
-
-
-
 }

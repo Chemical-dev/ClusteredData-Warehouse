@@ -3,7 +3,6 @@ package com.clustereddatawarehouse.validation;
 import com.clustereddatawarehouse.annotations.ValidCurrency;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 import java.util.Currency;
 import java.util.Set;
 import java.util.stream.Collectors;

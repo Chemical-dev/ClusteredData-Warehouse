@@ -1,6 +1,5 @@
 package com.clustereddatawarehouse.model;
 
-import com.clustereddatawarehouse.annotations.PositiveAmount;
 import com.clustereddatawarehouse.annotations.Unique;
 import lombok.*;
 

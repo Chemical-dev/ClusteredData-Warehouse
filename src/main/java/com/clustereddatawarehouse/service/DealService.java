@@ -2,7 +2,7 @@ package com.clustereddatawarehouse.service;
 
 
 import com.clustereddatawarehouse.dto.request.AddDealDto;
-import com.clustereddatawarehouse.dto.response.AppResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
 

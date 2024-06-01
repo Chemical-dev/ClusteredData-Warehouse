@@ -28,6 +28,7 @@ public class LoggingAspect {
         String ipAddress = request.getRemoteAddr();
         String url = request.getRequestURL().toString();
         entryTime.set(Instant.now());
+
         String entryTimeString = formatter.format(entryTime.get());
         log.info("Start/Entering controller method '{}' at {} from IP: {} URL: {}",
                 methodName, entryTimeString, ipAddress, url);
@@ -39,14 +40,11 @@ public class LoggingAspect {
         Instant exitTime = Instant.now();
         String exitTimeString = formatter.format(exitTime);
         long durationMillis = Duration.between(entryTime.get(), exitTime).toMillis();
+
         log.info("Exiting controller method '{}' at {} (Duration: {} ms)",
                 methodName, exitTimeString, durationMillis);
 
-        if(!methodName.equalsIgnoreCase("payout")){
-            entryTime.remove();
-        }
-
-        if(methodName.equalsIgnoreCase("proxyPayout")){
+        if(!methodName.equalsIgnoreCase("createDeal")){
             entryTime.remove();
         }
     }

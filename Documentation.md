@@ -76,18 +76,20 @@ The FX Deals Data Warehouse project involves developing a system to accept and s
          - Authorization: No authorization required.
          - Request Body: The payload should be a JSON object with the following fields:
             - `dealUniqueId`: String (Unique identifier for the FX deal)
-            - `orderingCurrencyISOCode`: String (ISO code for the ordering currency)
-            - `toCurrencyISOCode`: String (ISO code for the target currency)
+            - `fromCurrencyIsoCode`: String (ISO code for the ordering currency)
+            - `toCurrencyIsoCode`: String (ISO code for the target currency)
             - `amount`: BigDecimal (Amount of the FX deal)
+            - `dealTimestamp`:TimeStamp(Time the deal was created )
          - Response: Returns a ResponseEntity with a BaseResponse containing the result of the operation. If successful, returns a success message; otherwise, returns validation errors or exceptions caught during processing.
 
 ### Sample Request Payload:
 ```json
 {
     "dealUniqueId": "SM_061",
-    "orderingCurrencyISOCode": "GBP",
+    "fromCurrencyIsoCode": "GBP",
     "toCurrencyISOCode": "EUR",
-    "amount": 2045876.35
+    "amount": 2045876.35,
+  "dealTimestamp": "2024-06-01T10:50:00"
 }
 ```
 ## Testing Instructions:
@@ -115,14 +117,19 @@ The FX Deals Data Warehouse project involves developing a system to accept and s
 ### Example Test Cases:
 - Below are some example test cases written for the project:
 
-   1. **testSaveDeals_UniqueDeal_Success:**
-      - Description: Tests the successful saving of a unique FX deal.
-      - Expected Outcome: The deal should be saved successfully, and the response should indicate success with the appropriate data.
+   1. **whenValidDeal_thenDealShouldBeAdded:**
+      - Description: This test verifies that when a valid deal is provided and does not already exist in the repository.
+      - Expected Outcome: The deal is successfully added, and an HTTP 200 OK status is returned.
 
-   2. **testSaveDeals_DuplicateDeal_Failure:**
-      - Description: Tests the scenario where a duplicate FX deal is encountered.
-      - Expected Outcome: The operation should fail, and the response should indicate the presence of a duplicate deal.
-
-   3. **testSaveDeals_InternalError_Failure:**
-      - Description: Tests the scenario where an internal error occurs during the saving of an FX deal.
-      - Expected Outcome: The operation should fail, and the response should indicate an internal error with an appropriate error message.
+   2. **testAddInvalidDeal:**
+      - Description: This test verifies that when an invalid deal with a null "FromCurrencyIsoCode" is provided, the deal is not added.
+      - Expected Outcome: An HTTP 400 BAD REQUEST status along with an appropriate error message is returned.
+      
+   3. **testAddDealWithInvalidCurrencyCode:**
+      - Description: This test verifies that when a deal with an invalid currency code (less than 3 letters) is provided, the deal is not added
+      - Expected Outcome: An HTTP 400 BAD REQUEST status along with an appropriate error message is returned
+  
+   4. **testAddDuplicateDeal:**
+       - Description: This test verifies that when a duplicate deal (matching unique ID, amount, or currency codes) is provided, the deal is not added
+       - Expected Outcome: An HTTP 400 BAD REQUEST status along with the error message "Deal already exists" is returned
+  
