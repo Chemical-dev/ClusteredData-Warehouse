@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  cluster-task:
+    container_name: cluster-task
+    image: cluster-task
+    build: .
+    ports:
+      - "8080:8080"
+  mysqldb:
+    container_name: mysqldb-cluster
+    image: cluster-task-db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: root
+      MYSQL_ROOT_PASSWORD: vodina@23
