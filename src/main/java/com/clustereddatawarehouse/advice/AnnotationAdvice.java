@@ -14,8 +14,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.annotation.Order;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
-import java.util.function.Predicate;
 
 @Aspect
 @Order(100)
@@ -48,24 +46,4 @@ public class AnnotationAdvice {
         PositiveAmount charged = method.getAnnotation(PositiveAmount.class);
         return charged != null;
     }
-
-//    private boolean canSkipChargeResolution(ProceedingJoinPoint proceedingJoinPoint) {
-//        Object chargeSkipFactor = methodParamWithTargetAnnotation(proceedingJoinPoint, ChargeSkipFactor.class);
-//        if (Objects.isNull(chargeSkipFactor))
-//            return false;
-//
-//        else if (chargeSkipFactor instanceof TransactionType) {
-//            TransactionType transactionType = (TransactionType) chargeSkipFactor;
-//            Predicate<TransactionType> isCollectingChargesOrFundingRightNow = o -> o.equals(TransactionType.FEE);
-//            if (isCollectingChargesOrFundingRightNow.test(transactionType)) {
-//                return true;
-//            }
-//        }
-//
-//        else if (ActivityName.REVERSAL.equals(getChargeActivityName(proceedingJoinPoint))) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
 }

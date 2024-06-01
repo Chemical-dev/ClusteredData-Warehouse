@@ -8,10 +8,12 @@ import com.clustereddatawarehouse.model.Deal;
 import com.clustereddatawarehouse.model.DealsRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DealsServiceImpl implements DealService{
@@ -20,14 +22,9 @@ public class DealsServiceImpl implements DealService{
     @Override
     public ResponseEntity<?> addDeal(AddDealDto dto) {
         try {
-//            ValidationResponse validationResult = dto.isValid();
-//
-//            if (!validationResult.getStatus()) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(validationResult.getMessage(), HttpStatus.BAD_REQUEST.toString()));
-//            }
-
             Boolean dealExists = dealsRepository.existsByDealUniqueIdOrDealAmountOrFromCurrencyIsoCodeOrToCurrencyIsoCode(dto.getDealUniqueId(), dto.getDealAmount(), dto.getFromCurrencyIsoCode(), dto.getToCurrencyIsoCode());
             if (dealExists) {
+                log.info("Deal already exists...{}", dto.getDealUniqueId());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Deal already exists", HttpStatus.BAD_REQUEST.toString()));
             }
 
@@ -35,6 +32,7 @@ public class DealsServiceImpl implements DealService{
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new AppResponse("Deal added successfully", "00", null));
         } catch (Exception exception) {
+            log.error("Error while adding deal", exception);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Internal Server Error: " + exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.toString()));
         }
     }

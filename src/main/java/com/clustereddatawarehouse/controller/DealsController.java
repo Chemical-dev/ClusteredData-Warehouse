@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping("/deals")
 @RequiredArgsConstructor
@@ -20,21 +21,7 @@ public class DealsController {
     private final DealsServiceImpl dealService;
 
     @PostMapping("/deals")
-    public ResponseEntity<?> createDeal(@Valid() @RequestBody AddDealDto deal, HttpServletRequest request) {
-        String clientIp = request.getRemoteAddr();
-        System.out.println("Request received from IP: " + clientIp);
+    public ResponseEntity<?> createDeal(@Valid() @RequestBody AddDealDto deal) {
         return dealService.addDeal(deal);
-    }
-
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }
