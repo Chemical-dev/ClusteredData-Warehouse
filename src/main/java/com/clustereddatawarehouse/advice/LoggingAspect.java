@@ -18,11 +18,8 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 @RequiredArgsConstructor
 public class LoggingAspect {
-
     private ThreadLocal<Instant> entryTime = new ThreadLocal<>();
-
     private final HttpServletRequest request;
-
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(ZoneId.of("UTC"));
 
     @Before("execution(* com.clustereddatawarehouse.controller.*.*(..))")

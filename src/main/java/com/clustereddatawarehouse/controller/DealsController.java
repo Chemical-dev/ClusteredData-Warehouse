@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class DealsController {
     private final DealsServiceImpl dealService;
 
-    @PostMapping("/deals")
+    @PostMapping(path = "/deals",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createDeal(@Valid() @RequestBody AddDealDto deal) {
         return dealService.addDeal(deal);
     }
