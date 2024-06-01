@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class DealsController {
     private final DealsServiceImpl dealService;
 
-    @PostMapping(path = "/deals",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/add",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createDeal(@Valid() @RequestBody AddDealDto deal) {
         return dealService.addDeal(deal);
     }
